@@ -22,8 +22,8 @@ android {
 
     defaultConfig {
         applicationId "com.android.example.leanback"
-        minSdkVersion 17
-        targetSdkVersion 23
+        minSdkVersion 23
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
     }
@@ -44,4 +44,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:leanback-v17:23.3.0'
     compile 'com.android.support:recyclerview-v7:23.3.0'
+    compile 'com.android.support.constraint:constraint-layout:1.1.3'
+    compile 'com.android.support:design:23.4.0'
 }

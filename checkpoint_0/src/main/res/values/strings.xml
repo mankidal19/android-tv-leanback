@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2014 Google Inc. All rights reserved.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,5 +28,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="columns">1</string>
     <string name="title_activity_leanback">LeanbackActivity</string>
+    <string name="action_play">PLAY</string>
+    <string name="action_watch_later">WATCH LATER</string>
+    <string name="rating">RATING</string>
 
 </resources>

@@ -28,6 +28,7 @@
 
         <!-- The rest of your attributes -->
     </style>
+
     <style name="PagerTitle">
         <item name="android:background">#00FFFFFF</item>
         <item name="android:textColor">#fff</item>
@@ -55,4 +56,13 @@
     <style name="WatchDetailsPlayButton">
         <item name="android:src">@drawable/fab</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

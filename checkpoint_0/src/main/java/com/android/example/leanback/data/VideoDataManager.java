@@ -23,6 +23,9 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v17.leanback.database.CursorMapper;
+import android.support.v17.leanback.widget.CursorObjectAdapter;
+import android.support.v17.leanback.widget.ObjectAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,9 @@ public class VideoDataManager implements LoaderManager.LoaderCallbacks<Cursor> {
     protected LoaderManager mLoaderManager;
     protected int LOADER_ID;
     protected Uri mRowUri;
+
+    //add an ObjectAdapter to the class VideoDataManager
+    private ObjectAdapter mItemList;
 
     public List<Video> getVideos() {
         return videos;
@@ -57,14 +63,26 @@ public class VideoDataManager implements LoaderManager.LoaderCallbacks<Cursor> {
             VideoItemContract.VideoItemColumns.CONTENT_URL,
     };
 
-    public VideoDataManager(Context mContext, LoaderManager mLoaderManager, Uri mRowUri) {
+    //dd ObjectAdapter as fourth parameter to VideoDataManager constructor
+    // and store the ObjectAdapter as mItemList
+    public VideoDataManager(Context mContext, LoaderManager mLoaderManager, Uri mRowUri, ObjectAdapter rowContents) {
         this.mLoaderManager = mLoaderManager;
         this.mRowUri = mRowUri;
         this.mContext = mContext;
-        LOADER_ID = mRowUri.hashCode();
-        mMapper = new VideoItemMapper();
-        videos = new ArrayList<Video>();
+        this.mItemList = rowContents;
 
+
+        //set the LOADER_ID to a random integer
+        // and replace the video instantiation with setting the mapper for mItemList
+        LOADER_ID = Double.valueOf(Math.random() * Integer.MAX_VALUE).intValue();
+        mMapper = new VideoItemMapper();
+        ((CursorObjectAdapter)mItemList).setMapper(mMapper);
+
+    }
+
+    //getter for the ObjectAdapter
+    public ObjectAdapter getItemList() {
+        return mItemList;
     }
 
     public void startDataLoading() {
@@ -81,18 +99,23 @@ public class VideoDataManager implements LoaderManager.LoaderCallbacks<Cursor> {
         return new CursorLoader(mContext, mRowUri, PROJECTION, null, null, VideoItemContract.VideoItem.DEFAULT_SORT);
     }
 
+    //Update onLoadFinished to set the cursor for mItemList
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        mMapper.bindColumns(cursor);
-        while (cursor.moveToNext()) {
-            videos.add(mMapper.bind(cursor));
+        if (mItemList instanceof CursorObjectAdapter) {
+            ((CursorObjectAdapter) mItemList).swapCursor(cursor);
         }
+
     }
 
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
+        //set the Cursor as null
+        if (mItemList instanceof CursorObjectAdapter) {
+            ((CursorObjectAdapter) mItemList).swapCursor(null);
+        }
     }
 
-    public static class VideoItemMapper {
+    public static class VideoItemMapper extends CursorMapper {
 
         private int[] mColumnMap;
         private static final int ID = 0;
